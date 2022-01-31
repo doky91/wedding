@@ -5,21 +5,21 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "service_package")
+@Table(name = "offer_package")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServicePackage {
+public class OfferPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
-    @Basic
-    @Column
-    private Service service;
+    @ManyToOne
+    @JoinColumn(name = "offer_id", referencedColumnName = "id", nullable = false)
+    private Offer offer;
 
     @Basic
     @Column

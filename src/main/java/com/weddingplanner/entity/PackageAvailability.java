@@ -16,11 +16,11 @@ public class PackageAvailability {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "service_package_id", referencedColumnName = "id")
-    private ServicePackage servicePackage;
+    private OfferPackage offerPackage;
 
     @Basic
     @Column(name = "available_from")

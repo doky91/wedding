@@ -1,0 +1,18 @@
+version: "3"
+services:
+  mariadb:
+    container_name: mysql
+    image: mariadb:10.6
+    volumes:
+      - mariadbtest:/var/lib/mysql
+    environment:
+      TZ: "Europe/Zagreb"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "c_test"
+      MYSQL_USER: "c_test"
+      MYSQL_PASSWORD: "c_test"
+    ports:
+      - 3306:3306
+volumes:
+  mariadbtest:

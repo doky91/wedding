@@ -15,7 +15,7 @@ public class EventUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "id")

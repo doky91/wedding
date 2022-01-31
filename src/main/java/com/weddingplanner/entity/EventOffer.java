@@ -5,25 +5,25 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "event_service")
+@Table(name = "event_offer")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EventService {
+public class EventOffer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", referencedColumnName = "id")
-    private Service service;
+    @JoinColumn(name = "offer_id", referencedColumnName = "id")
+    private Offer offer;
 
     @Basic
     @Column

@@ -5,25 +5,29 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "service")
+@Table(name = "offer")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class Offer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id",  referencedColumnName = "id")
     private Category category;
 
     @Basic
     @Column(name = "picture_url")
     private String pictureUrl;
+
+    @Basic
+    @Column
+    private String name;
 
     @Basic
     @Column
