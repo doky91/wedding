@@ -66,7 +66,6 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
         offerRepository.deleteById(id);
     }
 
-
     private boolean doesNameExist(String name) {
         Optional<Offer> offer = offerRepository.findOfferByName(name);
         return offer.isPresent();
