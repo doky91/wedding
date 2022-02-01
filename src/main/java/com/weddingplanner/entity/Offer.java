@@ -17,14 +17,6 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id",  referencedColumnName = "id")
-    private Category category;
-
-    @Basic
-    @Column(name = "picture_url")
-    private String pictureUrl;
-
     @Basic
     @Column
     private String name;
@@ -44,4 +36,13 @@ public class Offer {
     @Basic
     @Column
     private String contactEmail;
+
+    @Basic
+    @Column(name = "picture_url")
+    private String pictureUrl;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id",  referencedColumnName = "id")
+    private Category category;
+
 }

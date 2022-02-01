@@ -13,30 +13,31 @@ public class OfferController {
 
     private final OfferService offerService;
 
-    @PostMapping("/create")
-    public ResponseEntity<Object> createOffer(@RequestBody Offer offer) {
-
-        return ResponseEntity.ok(offerService.createOffer(offer));
+    @GetMapping
+    public ResponseEntity<Object> getAllOffers() {
+        return ResponseEntity.ok().body(offerService.findAllOffers());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOfferById(@PathVariable(value = "id") Long id) {
-
         return ResponseEntity.ok().body(offerService.getOffer(id));
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping
+    public ResponseEntity<Object> createOffer(@RequestBody Offer offer) {
+        return ResponseEntity.ok(offerService.createOffer(offer));
+    }
+
+    @PostMapping("/{id}")
     public ResponseEntity<Object> updateCategory(
             @PathVariable(value = "id") Long id,
             @RequestBody Offer offer) {
-
         return ResponseEntity.ok(offerService.updateOffer(id, offer));
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void updateCategory(
             @PathVariable(value = "id") Long id) {
-
         offerService.deleteOffer(id);
     }
 }

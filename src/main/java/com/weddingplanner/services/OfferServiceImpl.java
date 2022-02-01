@@ -1,12 +1,14 @@
-package com.weddingplanner.services.interfaces;
+package com.weddingplanner.services;
 
 import com.weddingplanner.entity.Offer;
 import com.weddingplanner.exceptions.DataFailedException;
 import com.weddingplanner.repositories.OfferRepository;
+import com.weddingplanner.services.interfaces.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -64,6 +66,11 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
     @Override
     public void deleteOffer(Long id) {
         offerRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Offer> findAllOffers() {
+        return offerRepository.findAll();
     }
 
     private boolean doesNameExist(String name) {

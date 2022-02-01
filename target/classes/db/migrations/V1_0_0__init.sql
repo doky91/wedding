@@ -143,31 +143,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `c_test`.`role`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `c_test`.`role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `c_test`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `c_test`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100) NULL,
+  `username` VARCHAR(100) NULL,
   `password` VARCHAR(150) NULL,
   `email` VARCHAR(150) NULL,
-  `role_id` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_role_id_idx` (`role_id` ASC) VISIBLE,
-  CONSTRAINT `fk_role_id`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `c_test`.`role` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `roles` TEXT NULL,
+  `active` BIT(1) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 

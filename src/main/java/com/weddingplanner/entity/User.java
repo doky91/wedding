@@ -19,7 +19,7 @@ public class User {
 
     @Basic
     @Column
-    private String name;
+    private String username;
 
     @Basic
     @Column
@@ -29,7 +29,11 @@ public class User {
     @Column
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role role;
+    @Basic
+    @Column
+    private Boolean active;
+
+    @Basic
+    @Column
+    private String roles;
 }

@@ -1,4 +1,4 @@
-package com.weddingplanner.services.interfaces;
+package com.weddingplanner.services;
 
 import com.weddingplanner.exceptions.ItemNotFoundException;
 import lombok.Getter;

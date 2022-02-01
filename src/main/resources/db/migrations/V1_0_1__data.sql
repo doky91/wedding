@@ -1,0 +1,1 @@
+INSERT INTO `c_test`.`user` (username, password, roles, active) VALUES ('dodo', 'pass', 'ROLE_ADMIN', 1);
