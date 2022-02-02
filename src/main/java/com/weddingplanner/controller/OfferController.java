@@ -1,8 +1,10 @@
 package com.weddingplanner.controller;
 
 import com.weddingplanner.entity.Offer;
+import com.weddingplanner.response.OfferResponse;
 import com.weddingplanner.services.interfaces.OfferService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,18 +27,23 @@ public class OfferController {
 
     @PostMapping
     public ResponseEntity<Object> createOffer(@RequestBody Offer offer) {
-        return ResponseEntity.ok(offerService.createOffer(offer));
+        try {
+            return ResponseEntity.ok(offerService.createOffer(offer));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new OfferResponse("Not good data",
+                    "You didn't provide accurate data."));
+        }
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Object> updateCategory(
+    public ResponseEntity<Object> updateOffer(
             @PathVariable(value = "id") Long id,
             @RequestBody Offer offer) {
         return ResponseEntity.ok(offerService.updateOffer(id, offer));
     }
 
     @DeleteMapping("/{id}")
-    public void updateCategory(
+    public void deleteOffer(
             @PathVariable(value = "id") Long id) {
         offerService.deleteOffer(id);
     }

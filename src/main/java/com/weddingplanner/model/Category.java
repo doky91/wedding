@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class Category {
 
-    private String id;
+    private Long id;
 
     private String name;
 

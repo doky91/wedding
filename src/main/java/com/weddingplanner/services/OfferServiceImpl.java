@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Service
@@ -21,10 +22,7 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
 
     @Override
     public Offer createOffer(Offer offer) {
-        if (doesNameExist(offer.getName())) {
-            throw new DataFailedException(
-                    CONFLICT, "Offer name:" + offer.getName() + "already exists in database.");
-        }
+        checkOffer(offer);
         return offerRepository.save(offer);
     }
 
@@ -43,17 +41,19 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
                 .map(
                         offer1 -> {
                             if (!offer1.getName().equals(input.getName())) {
-                                if (doesNameExist(input.getName())) {
+                                if (doesNameExist(input.getName()) || isDataInvalid(input.getName())) {
                                     throw new DataFailedException(
-                                            CONFLICT, "Offer name:" + input.getName() + "already exists in database.");
+                                            CONFLICT, "Offer name:" + input.getName() +
+                                            "was not provided or already exists.");
                                 }
                                 offer1.setName(input.getName());
                             }
-
+                            checkOffer(offer1);
                             offer1.setCategory(input.getCategory());
+                            offer1.setContactPerson(input.getContactPerson());
                             offer1.setPictureUrl(input.getPictureUrl());
                             offer1.setDescription(input.getDescription());
-                            offer1.setContactPerson(input.getContactPerson());
+
                             offer1.setContactPhone(input.getContactPhone());
                             offer1.setContactEmail(input.getContactEmail());
 
@@ -65,6 +65,8 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
 
     @Override
     public void deleteOffer(Long id) {
+        offerRepository.findById(id)
+                .orElseThrow(itemNotFound("Offer with id: " + id + " does not exist"));
         offerRepository.deleteById(id);
     }
 
@@ -73,8 +75,37 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
         return offerRepository.findAll();
     }
 
+    private boolean isDataInvalid(String data) {
+        return data == null || data.isEmpty() || data.trim().isEmpty();
+    }
+
+    private void checkOffer(Offer offer) {
+        if (doesNameExist(offer.getName()) || isDataInvalid(offer.getName())) {
+            throw new DataFailedException(
+                    CONFLICT, "Offer name:" + offer.getName() +
+                    "was not provided or already exists.");
+        }
+
+        if (isDataInvalid(offer.getContactPerson()) || isDataInvalid(offer.getContactPhone())
+                || isDataInvalid(offer.getContactEmail())) {
+            throw new DataFailedException(
+                    BAD_REQUEST, "You did not provide all contact information:");
+        }
+
+        if (isDataInvalid(offer.getPictureUrl())) {
+            throw new DataFailedException(
+                    BAD_REQUEST, "You did not provide picture url:");
+        }
+
+        if (isDataInvalid(offer.getDescription())) {
+            throw new DataFailedException(
+                    BAD_REQUEST, "You did not provide description:");
+        }
+    }
+
     private boolean doesNameExist(String name) {
         Optional<Offer> offer = offerRepository.findOfferByName(name);
         return offer.isPresent();
     }
+
 }
