@@ -1,7 +1,9 @@
 package com.weddingplanner.services;
 
+import com.weddingplanner.entity.Category;
 import com.weddingplanner.entity.Offer;
 import com.weddingplanner.exceptions.DataFailedException;
+import com.weddingplanner.repositories.CategoryRepository;
 import com.weddingplanner.repositories.OfferRepository;
 import com.weddingplanner.services.interfaces.OfferService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 public class OfferServiceImpl extends BasicServiceOperations implements OfferService {
 
     private final OfferRepository offerRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Offer createOffer(Offer offer) {
@@ -49,7 +52,7 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
                                 offer1.setName(input.getName());
                             }
                             checkOffer(offer1);
-                            offer1.setCategory(input.getCategory());
+                            offer1.setCategory(checkCategory(input.getCategory()));
                             offer1.setContactPerson(input.getContactPerson());
                             offer1.setPictureUrl(input.getPictureUrl());
                             offer1.setDescription(input.getDescription());
@@ -101,6 +104,21 @@ public class OfferServiceImpl extends BasicServiceOperations implements OfferSer
             throw new DataFailedException(
                     BAD_REQUEST, "You did not provide description:");
         }
+
+        offer.setCategory(checkCategory(offer.getCategory()));
+    }
+
+    private Category checkCategory(Category category) {
+        if (category.getName() != null) {
+            Optional<Category> categoryFromDb = categoryRepository.findCategoryByName(category.getName());
+            if (!categoryFromDb.isPresent()) {
+                categoryRepository.save(category);
+            }
+        }
+        if (category.getId() != null) {
+            return categoryRepository.getById(category.getId());
+        }
+        return category;
     }
 
     private boolean doesNameExist(String name) {
