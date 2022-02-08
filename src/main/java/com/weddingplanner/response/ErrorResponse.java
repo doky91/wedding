@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OfferResponse {
+public class ErrorResponse {
 
     private String title;
     private String message;

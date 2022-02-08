@@ -1,7 +1,7 @@
 package com.weddingplanner.controller;
 
 import com.weddingplanner.entity.Category;
-import com.weddingplanner.response.OfferResponse;
+import com.weddingplanner.response.ErrorResponse;
 import com.weddingplanner.services.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class CategoryController {
         try {
             return ResponseEntity.ok(categoryService.createCategory(category));
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new OfferResponse("Not good data",
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Not good data",
                     "You didn't provide accurate data."));
         }
     }
